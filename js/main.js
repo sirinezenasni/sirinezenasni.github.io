@@ -26,7 +26,7 @@ $('.reservation-day li').click(function() {
 // STEP 4 
 $(".reservation-button").on("click", function(event) {
     event.preventDefault();
-    
+
     reservationData.name = $(".reservation-name").val();
     $(".reservation-name").val("");
 
@@ -37,23 +37,35 @@ $(".reservation-button").on("click", function(event) {
 
 // STEP 6
 function getReservations () {
-    database.ref("reservationDetails").on("child_added", function(snapshot) {
-        // grab element to hook to
+    database.ref("reservationDetails").on("value", function(snapshot) {
+        $(".reservation-list").empty();
         var reservationList = $(".reservation-list");
-        // get data from database
+        //console.log("reservationList:", reservationList);
+
         var reservations = snapshot.val();
+        //console.log("reservations:", reservations);
 
-        var source= $ ("#reservation-template").html();
+        for (var k in reservations) {
+            var data = {
+                name: reservations[k].name,
+                day: reservations[k].day,
+                id: k
+            };
+            //console.log("data:", data);
+            var source= $ ("#reservation-template").html();
 
-        var template = Handlebars.compile(source);
+            var template = Handlebars.compile(source);
 
-        var reservationTemplate = template(reservations);
+            var reservationTemplate = template(data);
+            //console.log("reservationTemplate:", reservationTemplate);
 
-        reservationList.append(reservationTemplate);
+            reservationList.append(reservationTemplate);
+        };       
     });
-}; 
+};
 
 getReservations ();
+
 
 // STEP 7, 8, 9
 function initMap() {
@@ -68,3 +80,15 @@ function initMap() {
         title: 'Monks Café'
     });
 }
+
+// Cancel reservation
+$(".reservation-list").on("click", ".delete", function(e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    console.log("id: ", id);
+  
+    var reservationRef = firebase.database().ref('reservationDetails/' + id)
+    console.log("reservationRef: ", reservationRef);
+  
+    reservationRef.remove()
+});

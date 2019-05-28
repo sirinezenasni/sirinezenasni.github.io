@@ -16,6 +16,11 @@
 		<tr>
 			<td>{{name}}</td>
 			<td>{{day}}</td>
+			<td>
+				<button class="delete" data-id="{{id}}">
+					Cancel
+				</button>
+			</td>
 		</tr>
 	</script>
 
@@ -41,11 +46,11 @@
 			<div class="col-md-12 text-center reservation-form">
 				<form class="form-inline reservations">
 				  <div class="form-group">
-				    <input type="text" class="form-control reservation-name" placeholder="Jane Doe">
+				    <input type="text" class="form-control reservation-name" placeholder="Jane Doe" required>
 				  </div>
 				  <div class="form-group">
 						<div class="dropdown">
-						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+						  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-required="true">
 						    Select A Day
 						    <span class="caret"></span>
 						  </button>

@@ -31,3 +31,17 @@
 .restaurant-locator {
 	height: 50vh;
 }
+
+  
+input:required:focus {
+	border: 1px solid red;
+	outline: none;
+}
+
+[aria-required=true] {
+	border: 1px solid red;
+	outline: none;
+}
+[data-required=true]:after {
+	border: none;
+}
